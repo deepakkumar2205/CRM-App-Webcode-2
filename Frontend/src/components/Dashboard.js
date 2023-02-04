@@ -36,8 +36,8 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import API from '../url';
 import { About } from './About';
 import Context from './ContextFold/Context';
-import { Home } from './Home';
-import { Profile } from './Profile';
+import { Home } from './Home/Home';
+import { Profile } from './Profile/Profile';
 
 //search bar and top bar code are shown bellow:
 const Search = styled('div')(({ theme }) => ({
@@ -165,7 +165,7 @@ function Dashboard() {
           }
         }).then((res)=>{
           if(res.status ===200){
-            console.log('triger');
+            // console.log('triger');
           }else if(res.status ===401){
             localStorage.clear();
             navigate("/")
