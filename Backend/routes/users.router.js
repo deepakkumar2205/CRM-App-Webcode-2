@@ -13,6 +13,7 @@ import {
 } from "../services/user.service.js";
 import randomstring from 'randomstring';
 import jwt from 'jsonwebtoken';
+import {auth} from '../middleware/auth.js'
 import sendEmail from '../utils/sendEmail.js';
 const router = express.Router();
 
@@ -114,6 +115,11 @@ router.post('/changePassword/:string',express.json(),async function(request,resp
     }else{
       response.send({message:"Invalid "})
     }
+})
+
+//dashboard verification to prevent duplicate tokens and fake users access.
+router.get('/verifyToken',auth,express.json(),async function(request,response){
+  response.send({message:'success'})
 })
 
 router.post('/login',express.json(),async function(request, response){

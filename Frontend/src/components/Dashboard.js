@@ -33,6 +33,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import API from '../url';
 import { About } from './About';
 import Context from './ContextFold/Context';
 import { Home } from './Home';
@@ -148,9 +149,35 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 //!dashbard funcion component is started from here
 function Dashboard() {
+  const navigate= useNavigate();
+  const [flagVerify,setFlagVerify] = React.useState(true);
+  
+  //Validate the token only one the dashboard get render next time it will not render .I keep like this for better performance.
+  if(flagVerify){
+    setFlagVerify(false)
+      const token=localStorage.getItem("x-Auth-token")
+      if(token){
+        fetch(`${API}/users/verifyToken`, {
+          method: "GET",
+          headers: {
+            'x-Auth-token': localStorage.getItem("x-Auth-token"),
+            'roleId':localStorage.getItem("roleId")        
+          }
+        }).then((res)=>{
+          if(res.status ===200){
+            console.log('triger');
+          }else if(res.status ===401){
+            localStorage.clear();
+            navigate("/")
+          }
+        }).catch((err)=>console.log(err))
+      }else{
+        navigate('/')
+      }
+  }
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const navigate= useNavigate();
   const context = React.useContext(Context);
  
   
