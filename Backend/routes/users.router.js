@@ -17,7 +17,7 @@ import sendEmail from '../utils/sendEmail.js';
 const router = express.Router();
 
 //!below api is foront end api to use to send mail.
-const API = "http://localhost:3000";
+const API = "https://deepak-crm-app-webcode-2.netlify.app";
 router.post('/signup',express.json(),async function(request, response){
     const { email, emailVerified, password, firstName, lastName, roleId } = request.body;
     const hashedPassword =await generateHashedPassword(password);
