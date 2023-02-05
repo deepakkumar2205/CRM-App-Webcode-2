@@ -125,6 +125,7 @@ router.get('/verifyToken',auth,express.json(),async function(request,response){
 router.post('/login',express.json(),async function(request, response){
   const {email , password} = request.body;
   const userFromDB = await  getUsers(email);
+  const myobjectId = userFromDB._id
   //!below if condition is used to find the data present in db or not.
   if(userFromDB == null){
     response.status(401).send({message:"Invalid credentials"})
@@ -140,6 +141,7 @@ router.post('/login',express.json(),async function(request, response){
                 message: "succeful login",
                 token: token,
                 roleId: userFromDB.roleId,
+                _id:myobjectId.toString()
               });
             }else{
               response.status(401).send({message:"Invalid credentials"})

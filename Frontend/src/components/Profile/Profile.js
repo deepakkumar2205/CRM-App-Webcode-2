@@ -10,11 +10,14 @@ import {
   TextField
 } from "@mui/material";
 import { useFormik } from 'formik';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import "yup-phone";
+import axios from 'axios';
 import maleavatar1 from "../../assets/maleavatar.svg";
 import "./Profile.css";
+import { toast } from "react-toastify";
+import API from "../../url";
 
 export const Profile = () => {
   //some styles below:
@@ -56,21 +59,58 @@ export const Profile = () => {
       .min(10, "Enter a valid  address")
       .required("Address is required"),
   });
+  
+  const [initialvalueData,setInitialvalue]= useState({
+    imageUrl:maleavatar1,
+    firstName:"",
+    lastName:"",
+    gender:"undefined",
+    email:"",
+    phone:"",
+    address:""
+  });
+  //axios method to get data:
+  const _id=localStorage.getItem("_id")
+  useEffect(() => {
+        axios({
+            method:"post",
+            url:`${API}/dashboard/getprofile`,
+            data:{
+              _id:_id
+            },
+            headers:{
+              'x-Auth-token': localStorage.getItem("x-Auth-token"),
+              'roleId':localStorage.getItem("roleId")        
+            }
+        }).then((data)=>{
+          setInitialvalue({...initialvalueData,...data.data})
+        })
+          .catch((err)=>console.log(err))
+  }, [])
 
   //formik
   const  {values,handleChange,errors,handleBlur,handleSubmit}=useFormik({
-      initialValues:{
-        imageUrl:maleavatar1,
-        firstName:"",
-        lastName:"",
-        gender:"undefined",
-        email:"",
-        phone:"",
-        address:""
-      },
+      initialValues:initialvalueData,
+      enableReinitialize:initialvalueData,
       validationSchema : userValidationSchema,
       onSubmit:(values)=>{
-        console.log(values);
+          //axios method to post and save the data into our database:
+          axios({
+            method:"post",
+            url:`${API}/dashboard/saveProfile`,
+            data:{...values,_id:_id},
+            headers:{
+              'x-Auth-token': localStorage.getItem("x-Auth-token"),
+              'roleId':localStorage.getItem("roleId")        
+            }
+        }).then((data)=>{
+          if(data.data.modifiedCount === 0){
+            toast("No changes to update")
+          }else{
+            toast("Updated successfully")
+          }
+        })
+          .catch((err)=>console.log(err))
       }
       
     })
@@ -89,7 +129,7 @@ export const Profile = () => {
             >
               <Box sx={{ width: 500, maxWidth: "100%" }}>
                 <img src={values.imageUrl} alt='Phone' style={img}></img>
-                <h1>Role : Admin</h1>
+                <h1>Role : {values.roleId}</h1>
                 <TextField
                   fullWidth
                   label="Image Url"
@@ -97,7 +137,7 @@ export const Profile = () => {
                   onChange={handleChange}
                   value={values.imageUrl}
                   error={errors.imageUrl ?"input-error":""}
-                  helperText={errors.imageUrl}
+                  helpertext={errors.imageUrl}
                   id="fullWidth"
                 />
                 <br />
@@ -138,7 +178,7 @@ export const Profile = () => {
                   name="gender"
                   value={values.gender}
                   onChange={handleChange}
-                  error={true}
+                  error={"input-error"}
                   helperText={errors.gender}
                 >
                   <FormControlLabel
@@ -167,6 +207,7 @@ export const Profile = () => {
                   label="E-mail"
                   id="fullWidth"
                   name="email"
+                  disabled
                   onChange={handleChange}
                   value={values.email}
                   error={errors.email ?"input-error":""}

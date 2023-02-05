@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import express from "express";
 import { MongoClient } from "mongodb";
 import usersRouter from './routes/users.router.js';
+import dashboardRouter from './routes/dashboard.profile.router.js'
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -21,6 +22,8 @@ await client.connect(); //call  //previous handshake is happening
 console.log("mongo is connected !!!");
 
 app.use('/users',usersRouter) ;
+
+app.use("/dashboard",dashboardRouter);
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
 
