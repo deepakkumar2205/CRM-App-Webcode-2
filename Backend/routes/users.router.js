@@ -9,7 +9,8 @@ import {
   updateVerification,
   checkString,
   changePasswordInDB,
-  deleteOneString
+  deleteOneString,
+  getProfilePic
 } from "../services/user.service.js";
 import randomstring from 'randomstring';
 import jwt from 'jsonwebtoken';
@@ -119,7 +120,9 @@ router.post('/changePassword/:string',express.json(),async function(request,resp
 
 //dashboard verification to prevent duplicate tokens and fake users access.
 router.get('/verifyToken',auth,express.json(),async function(request,response){
-  response.send({message:'success'})
+  const _id  = request.header("_id");
+  const profile =await getProfilePic(_id)
+  response.send({message:'success',data:profile})
 })
 
 router.post('/login',express.json(),async function(request, response){

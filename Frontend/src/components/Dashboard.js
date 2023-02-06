@@ -38,6 +38,11 @@ import { Allocation } from './Allocation/Allocation';
 import Context from './ContextFold/Context';
 import { Home } from './Home/Home';
 import { Profile } from './Profile/Profile';
+import BadgeIcon from '@mui/icons-material/Badge';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import EditIcon from '@mui/icons-material/Edit';
+import { Employees } from './Employees/Employees';
+import { Avatar } from '@mui/material';
 
 //search bar and top bar code are shown bellow:
 const Search = styled('div')(({ theme }) => ({
@@ -151,6 +156,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function Dashboard() {
   const navigate= useNavigate();
   const [flagVerify,setFlagVerify] = React.useState(true);
+  const [profileImage,setProfileImage ] = React.useState("");
   
   //Validate the token only one the dashboard get render next time it will not render .I keep like this for better performance.
   if(flagVerify){
@@ -161,7 +167,9 @@ function Dashboard() {
           method: "GET",
           headers: {
             'x-Auth-token': localStorage.getItem("x-Auth-token"),
-            'roleId':localStorage.getItem("roleId")        
+            'roleId':localStorage.getItem("roleId"),
+            '_id':localStorage.getItem("_id")
+    
           }
         }).then((res)=>{
           if(res.status ===200){
@@ -170,7 +178,9 @@ function Dashboard() {
             localStorage.clear();
             navigate("/")
           }
-        }).catch((err)=>console.log(err))
+          return res.json()
+        }).then((data)=>setProfileImage(data.data))
+        .catch((err)=>console.log(err))
       }else{
         navigate('/')
       }
@@ -282,7 +292,8 @@ function Dashboard() {
           aria-haspopup="true"
           color        ="inherit"
         >
-          <AccountCircle />
+          {/* <AccountCircle /> */}
+          <Avatar alt={profileImage.firstName} src={profileImage.imageUrl} sx={{ width: 30, height: 30 }}/>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -304,8 +315,8 @@ function Dashboard() {
       }, 8000);
   }
   const role = localStorage.getItem("roleId")
-  let mapingDataForSideBar =role ==='admin' ?["Home", "Allocation", "Profile", "About"]:
-                                             ["Home", "Profile", "About"]
+  let mapingDataForSideBar =role ==='admin' ?["Home","Employees","Edit Employees","Create Employees", "Allocation", "Profile", "About"]:
+                                             ["Home","Employees" ,"Profile", "About"]
   
   return (
     <Box sx={{ display: "flex" }}>
@@ -389,7 +400,8 @@ function Dashboard() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              {/* <AccountCircle /> */}
+              <Avatar alt={profileImage.firstName} src={profileImage.imageUrl}sx={{ width: 30, height: 30 }}/>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -442,6 +454,8 @@ function Dashboard() {
                       navigate("");
                     } else if (text === 'Allocation'){
                       navigate("allocation")
+                    }else if (text === 'Employees'){
+                      navigate("employees")
                     }
                   }}
                 >
@@ -456,6 +470,9 @@ function Dashboard() {
                     {"Allocation" === text ? <SupervisorAccountIcon /> : false}
                     {"Profile" === text ? <PortraitIcon /> : false}
                     {"About" === text ? <ContactsIcon /> : false}
+                    {"Employees" === text ? <BadgeIcon /> : false}
+                    {"Edit Employees" === text ? <EditIcon /> : false}
+                    {"Create Employees" === text ? <PersonAddAlt1Icon /> : false}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
@@ -472,6 +489,7 @@ function Dashboard() {
           <Route path="/About" element={<About />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/allocation" element={<Allocation />} />
+          <Route path="/employees" element={<Employees />} />
         </Routes>
         {/* </BrowserRouter> */}
       </Box>

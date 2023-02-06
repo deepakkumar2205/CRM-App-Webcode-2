@@ -1,5 +1,6 @@
 import { client } from '../index.js';
 import bcrypt from 'bcrypt';
+import { ObjectId } from 'mongodb';
 
 export async function createUser(data) {
     return await client.db("CRM-App").collection("users").insertOne(data);
@@ -16,6 +17,10 @@ export async function checkString(data) {
 
 export async function deleteOneString(data) {
     return client.db("CRM-App").collection("sessionTokens").deleteOne({randString:data});          
+}
+
+export async function getProfilePic(data) {
+    return client.db("CRM-App").collection("users").findOne({_id:new ObjectId(data)},{projection:{imageUrl:1,firstName:1}});          
 }
 
 export async function changePasswordInDB(data) {

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -18,6 +19,7 @@ import maleavatar1 from "../../assets/maleavatar.svg";
 import "./Profile.css";
 import { toast } from "react-toastify";
 import API from "../../url";
+import _ from 'underscore';
 
 export const Profile = () => {
   //some styles below:
@@ -59,8 +61,7 @@ export const Profile = () => {
       .min(10, "Enter a valid  address")
       .required("Address is required"),
   });
-  
-  const [initialvalueData,setInitialvalue]= useState({
+  const init = {
     imageUrl:maleavatar1,
     firstName:"",
     lastName:"",
@@ -68,7 +69,8 @@ export const Profile = () => {
     email:"",
     phone:"",
     address:""
-  });
+  }
+  const [initialvalueData,setInitialvalue]= useState(init);
   //axios method to get data:
   const _id=localStorage.getItem("_id")
   useEffect(() => {
@@ -117,6 +119,7 @@ export const Profile = () => {
   return (
     <div style={cont}>
       <Paper className="paperStyle">
+        {_.isEqual(initialvalueData , init) ?<CircularProgress  size={100}/>:
         <form onSubmit={handleSubmit}>
           <FormControl>
             <div style={{ backgroundColor: "green", margin: 0, padding: 0 }}>
@@ -245,7 +248,7 @@ export const Profile = () => {
               </Box>
             </div>
           </FormControl>
-        </form>
+        </form>}
       </Paper>
     </div>
   );
