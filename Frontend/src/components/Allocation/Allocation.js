@@ -37,7 +37,6 @@ export  function Allocation() {
     if(obj.roleId ==='none'){
       storageArray = storageArray.filter((e)=>e._id !== obj._id)
     }
-    console.log(storageArray);
   }
 
 const handleSubmit =(id)=>{
@@ -48,14 +47,14 @@ const handleSubmit =(id)=>{
     }
   })
   if(data){
-    console.log(data);
     axios({
       method:'post',
       url:`${API}/dashboard/updateRoleOfUser`,
       data:data,
       headers:{
         'x-Auth-token':localStorage.getItem("x-Auth-token"),
-        'roleId':localStorage.getItem("roleId")
+        'roleId':localStorage.getItem("roleId"),
+        '_id':localStorage.getItem("_id")
       }
     }).then(data=>{
       if(data.data.modifiedCount === 0 ){
@@ -63,7 +62,6 @@ const handleSubmit =(id)=>{
       }else{
         toast("Role is updated successfully")
         setRender(render ? false: true)
-        console.log(render);
       }
     })
       .catch((err)=>console.log(err))
@@ -79,7 +77,8 @@ useEffect(() => {
         url:`${API}/dashboard/getusersforprofile`,
         headers:{
             'x-Auth-token':localStorage.getItem("x-Auth-token"),
-            'roleId':localStorage.getItem("roleId")
+            'roleId':localStorage.getItem("roleId"),
+            '_id':localStorage.getItem("_id")
         }
     }).then((data)=>{
       setTableData(data.data)
