@@ -137,7 +137,7 @@ export const Profile = () => {
                   onChange={handleChange}
                   value={values.imageUrl}
                   error={errors.imageUrl ?"input-error":""}
-                  helpertext={errors.imageUrl}
+                  helperText={errors.imageUrl}
                   id="fullWidth"
                 />
                 <br />

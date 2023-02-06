@@ -1,4 +1,3 @@
-import { AutoStories, BookmarkAdd, PersonAdd } from '@mui/icons-material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -35,6 +34,7 @@ import * as React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import API from '../url';
 import { About } from './About';
+import { Allocation } from './Allocation/Allocation';
 import Context from './ContextFold/Context';
 import { Home } from './Home/Home';
 import { Profile } from './Profile/Profile';
@@ -218,7 +218,10 @@ function Dashboard() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={()=>{
+        handleMenuClose()
+        navigate("profile")
+      }}>Profile</MenuItem>
       <MenuItem onClick={()=>{
         handleMenuClose()
         localStorage.clear()
@@ -249,7 +252,7 @@ function Dashboard() {
          size      ="large"
          aria-label="show 4 new mails"
          color     ="inherit"
-         
+
          >
           <Badge  color="error">
           {context.theme!=='light'?<LightModeTwoToneIcon/>:
@@ -300,8 +303,10 @@ function Dashboard() {
          setOpen(!open)
       }, 8000);
   }
+  const role = localStorage.getItem("roleId")
+  let mapingDataForSideBar =role ==='admin' ?["Home", "Allocation", "Profile", "About"]:
+                                             ["Home", "Profile", "About"]
   
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -419,7 +424,7 @@ function Dashboard() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Home", "Books", "Members", "Add-Members", "Profile", "About"].map(
+          {mapingDataForSideBar.map(
             (text, index) => (
               <ListItem key={index} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -435,6 +440,8 @@ function Dashboard() {
                       navigate("profile");
                     } else if (text === "Home") {
                       navigate("");
+                    } else if (text === 'Allocation'){
+                      navigate("allocation")
                     }
                   }}
                 >
@@ -446,12 +453,9 @@ function Dashboard() {
                     }}
                   >
                     {"Home" === text ? <HomeIcon /> : false}
-                    {"Books" === text ? <AutoStories /> : false}
-                    {"Members" === text ? <SupervisorAccountIcon /> : false}
-                    {"Add-Members" === text ? <PersonAdd /> : false}
-                    {"Create-Books" === text ? <BookmarkAdd /> : false}
-                    {"About" === text ? <ContactsIcon /> : false}
+                    {"Allocation" === text ? <SupervisorAccountIcon /> : false}
                     {"Profile" === text ? <PortraitIcon /> : false}
+                    {"About" === text ? <ContactsIcon /> : false}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
@@ -467,6 +471,7 @@ function Dashboard() {
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/allocation" element={<Allocation />} />
         </Routes>
         {/* </BrowserRouter> */}
       </Box>

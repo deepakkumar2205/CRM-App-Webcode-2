@@ -40,7 +40,6 @@ const Signup = () => {
 			}
 		  })
 		  .then((data) => {
-			console.log(data);
 			if(data.message ==='already exist'){
 				toast('already exist')
 			}else if(data.message === 'password must be at least 8 characters'){
@@ -68,7 +67,7 @@ const Signup = () => {
 					<h1>Welcome Back</h1>
 					<Link to="/"> 
 						<button type="button" className={signupcss.white_btn}>
-							Sing in
+							Log in
 						</button>
 					</Link>
 				</div>

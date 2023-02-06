@@ -3,7 +3,8 @@ import * as dotenv from "dotenv";
 import express from "express";
 import { MongoClient } from "mongodb";
 import usersRouter from './routes/users.router.js';
-import dashboardRouter from './routes/dashboard.profile.router.js'
+import profileRouter from './routes/dashboard.profile.router.js'
+import allocationRouter from './routes/dashboard.allocation.router.js'
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -23,7 +24,11 @@ console.log("mongo is connected !!!");
 
 app.use('/users',usersRouter) ;
 
-app.use("/dashboard",dashboardRouter);
+//this route is for dashboard/profile
+app.use("/dashboard", profileRouter);
+
+//this route is for allocation page 
+app.use("/dashboard", allocationRouter);
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
 
