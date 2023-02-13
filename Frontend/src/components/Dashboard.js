@@ -43,6 +43,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 import { Employees } from './Employees/Employees';
 import { Avatar } from '@mui/material';
+import CreateEmployee from './CreateEmployee';
 
 //search bar and top bar code are shown bellow:
 const Search = styled('div')(({ theme }) => ({
@@ -315,7 +316,7 @@ function Dashboard() {
       }, 8000);
   }
   const role = localStorage.getItem("roleId")
-  let mapingDataForSideBar =role ==='admin' ?["Home","Employees","Edit Employees","Create Employees", "Allocation", "Profile", "About"]:
+  let mapingDataForSideBar =role ==='admin' ?["Home","Employees","Create Employees", "Allocation", "Profile", "About"]:
                                              ["Home","Employees" ,"Profile", "About"]
   
   return (
@@ -456,6 +457,8 @@ function Dashboard() {
                       navigate("allocation")
                     }else if (text === 'Employees'){
                       navigate("employees")
+                    }else if(text === 'Create Employees'){
+                      navigate("createEmployees")
                     }
                   }}
                 >
@@ -490,6 +493,7 @@ function Dashboard() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/allocation" element={<Allocation />} />
           <Route path="/employees" element={<Employees />} />
+          <Route path="/createEmployees" element={<CreateEmployee />} />
         </Routes>
         {/* </BrowserRouter> */}
       </Box>

@@ -16,7 +16,8 @@ const sendEmail =async (email,subject,text) =>{
             from : process.env.USER,
             to:email,
             subject:subject,
-            text:`This link will expired within 15 minutes use it befor expired or else generate new link and continue the process  ${text}`
+            text:`This link will expired within 15 minutes use it befor expired or else generate new link and continue the process  ${text}`,
+            // html:"<b><h1>deepakkumar</h1></b>"
         });
         console.log('email send successfully');
     } catch (error) {

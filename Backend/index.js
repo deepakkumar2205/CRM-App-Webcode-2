@@ -5,6 +5,7 @@ import { MongoClient } from "mongodb";
 import usersRouter from './routes/users.router.js';
 import profileRouter from './routes/dashboard.profile.router.js'
 import allocationRouter from './routes/dashboard.allocation.router.js'
+import employeeRouter from './routes/dashboard.employees.router.js'
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -29,6 +30,9 @@ app.use("/dashboard", profileRouter);
 
 //this route is for allocation page 
 app.use("/dashboard", allocationRouter);
+
+//this route is for allocation page 
+app.use("/dashboard", employeeRouter);
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
 

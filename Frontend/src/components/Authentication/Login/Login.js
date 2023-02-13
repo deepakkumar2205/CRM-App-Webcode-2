@@ -5,7 +5,7 @@ import API from '../../../url';
 import styles from "./Login.module.css";
 
 const Login = () => {
-	const [data, setData] = useState({ email: "", password: "" });
+	const [data, setData] = useState({ email: "dk44861@gmail.com", password: "ironman2205" });
 	const [error, setError] = useState(false);
 	const [state, setState] = useState("Login")
 	const navigate = useNavigate();
@@ -62,7 +62,7 @@ const Login = () => {
 							placeholder="email"
 							name="email"
 							onChange={handleChange}
-							value={data.username}
+							value={data.email}
 							required
 							className={styles.input}
 						/>
