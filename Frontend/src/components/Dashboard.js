@@ -42,7 +42,7 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 import { Employees } from './Employees/Employees';
-import { Avatar } from '@mui/material';
+import { Avatar, Tooltip } from '@mui/material';
 import CreateEmployee from './CreateEmployee';
 
 //search bar and top bar code are shown bellow:
@@ -273,16 +273,18 @@ function Dashboard() {
         <p>Theme</p>
       </MenuItem>
       <MenuItem>
+      <Tooltip title="Total members in the CRM">
         <IconButton
           size      ="large"
           aria-label="show 17 new notifications"
           color     ="inherit"
          >
         
-          <Badge color="error">
-          </Badge>
+          <Badge color="error" badgeContent={context.badge}>
             <PeopleIcon />
+          </Badge >
         </IconButton>
+        </Tooltip>
         <p>Total Members</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -388,7 +390,7 @@ function Dashboard() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge color="error">
+              <Badge color="error" badgeContent={context.badge}>
                 <PeopleIcon />
               </Badge>
             </IconButton>

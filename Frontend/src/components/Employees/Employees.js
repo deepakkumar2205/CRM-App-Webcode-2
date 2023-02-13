@@ -5,9 +5,12 @@ import { useEffect , useState } from "react";
 import Cardbody from "./Cards";
 import API from '../../url'
 import { CircularProgress } from "@mui/material";
+import Context from "../ContextFold/Context";
 
 export  function Employees() {
   const [employee, setEmployee] =useState([]);
+  const context = React.useContext(Context);
+
 
   const style ={
     display:'flex',
@@ -24,8 +27,8 @@ export  function Employees() {
       'x-Auth-token':localStorage.getItem("x-Auth-token")
     }
    }).then((data)=>{
-    console.log(data.data)
     setEmployee(data.data)
+    context.setBadge(data.data.length )
    })
    .catch((err)=>console.log(err))
   }, [])
