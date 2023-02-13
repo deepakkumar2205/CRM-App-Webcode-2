@@ -5,11 +5,13 @@ import { useEffect } from 'react';
 import API from '../../url';
 import {toast} from 'react-toastify';
 import { AllocationTableComp } from './AllocationTableComp';
+import Context from '../ContextFold/Context';
 
 export  function Allocation() {
   const [tableData,setTableData ] = React.useState([]);
   const [render, setRender]= React.useState(true);
   const [ dynamicButton, setDynamicButton ] = React.useState({id:0});
+  const context =React.useContext(Context)
   let storageArray = [];
 
   const compare =(obj) =>{
@@ -56,6 +58,7 @@ const handleSubmit =(id)=>{
       }else{
         toast("Role is updated successfully")
         setRender(render ? false: true)
+        context.getEmp()
         setDynamicButton({id:0})
       }
     })

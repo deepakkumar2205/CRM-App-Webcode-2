@@ -1,0 +1,12 @@
+@media screen and (min-width: 850px) {
+  .searchBar{
+    width: 500px !important;
+}  
+}
+
+.searchDiv{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+

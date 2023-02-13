@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 export default function Cardbody({emp}) {
-    return <Card sx={{ maxWidth: 345 ,margin:'15px',boxShadow:'2px 2px 10px'}}>
+    return <Card key={emp._id} sx={{ maxWidth: 345 ,margin:'15px',boxShadow:'2px 2px 10px'}}>
       <CardMedia
         component="img"
         alt="green iguana"

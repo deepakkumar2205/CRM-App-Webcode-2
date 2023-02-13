@@ -1,17 +1,20 @@
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import BadgeIcon from '@mui/icons-material/Badge';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import EditIcon from '@mui/icons-material/Edit';
 import HomeIcon from '@mui/icons-material/Home';
 import LightModeTwoToneIcon from '@mui/icons-material/LightModeTwoTone';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import PeopleIcon from '@mui/icons-material/People';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import SearchIcon from '@mui/icons-material/Search';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import { Avatar, Tooltip } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
@@ -36,15 +39,11 @@ import API from '../url';
 import { About } from './About';
 import { Allocation } from './Allocation/Allocation';
 import Context from './ContextFold/Context';
+import CreateEmployee from './CreateEmployee';
+import './Dashboard.css';
+import { Employees } from './Employees/Employees';
 import { Home } from './Home/Home';
 import { Profile } from './Profile/Profile';
-import BadgeIcon from '@mui/icons-material/Badge';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import EditIcon from '@mui/icons-material/Edit';
-import { Employees } from './Employees/Employees';
-import { Avatar, Tooltip } from '@mui/material';
-import CreateEmployee from './CreateEmployee';
-import axios from 'axios';
 
 //search bar and top bar code are shown bellow:
 const Search = styled('div')(({ theme }) => ({
@@ -187,16 +186,6 @@ function Dashboard() {
       }else{
         navigate('/')
       }
-
-      axios({
-        url:`${API}/dashboard/getemployees`,
-        method:'get',
-        headers:{
-          'x-Auth-token':localStorage.getItem("x-Auth-token")
-        }
-       }).then((data)=>{
-        context.setBadge(data.data.length )
-       })
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -359,6 +348,7 @@ function Dashboard() {
                 sx={{
                   display: { xs: "none", sm: "block" },
                   paddingLeft: "15px",
+                  width:"150px"
                 }}
               >
                 CRM-APP
@@ -367,15 +357,34 @@ function Dashboard() {
           ) : (
             false
           )}
-          <Search style={{ width: "500px" }}>
+          <div className='searchDiv' >
+            {document.location.pathname === '/dashboard/employees' &&
+          <Search className='searchBar'>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={(e)=>{
+                let character = e.target.value;
+                let array = context.employee;
+                let resArray=[]
+                for(let i of array){
+                  if(i.firstName.toUpperCase().includes(character.toUpperCase() )||
+                     i.roleId.toUpperCase().includes(character.toUpperCase())
+                  ){
+                    resArray.push(i)
+                  }
+                }
+                context.setSortedEmployees(resArray.length ===0 ? 'empty' : resArray )
+                // context.setSortedEmployees( resArray )
+              
+                
+              }}
             />
-          </Search>
+          </Search>}
+          </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
