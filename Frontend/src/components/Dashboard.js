@@ -402,7 +402,9 @@ function Dashboard() {
               color="inherit"
             >
               <Badge color="error" badgeContent={context.badge}>
+              <Tooltip title="Total members in the CRM">
                 <PeopleIcon />
+              </Tooltip>
               </Badge>
             </IconButton>
             <IconButton
