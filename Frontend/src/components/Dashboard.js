@@ -44,6 +44,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Employees } from './Employees/Employees';
 import { Avatar, Tooltip } from '@mui/material';
 import CreateEmployee from './CreateEmployee';
+import axios from 'axios';
 
 //search bar and top bar code are shown bellow:
 const Search = styled('div')(({ theme }) => ({
@@ -157,6 +158,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function Dashboard() {
   const navigate= useNavigate();
   const [flagVerify,setFlagVerify] = React.useState(true);
+  const context = React.useContext(Context);
   const [profileImage,setProfileImage ] = React.useState("");
   
   //Validate the token only one the dashboard get render next time it will not render .I keep like this for better performance.
@@ -185,11 +187,20 @@ function Dashboard() {
       }else{
         navigate('/')
       }
+
+      axios({
+        url:`${API}/dashboard/getemployees`,
+        method:'get',
+        headers:{
+          'x-Auth-token':localStorage.getItem("x-Auth-token")
+        }
+       }).then((data)=>{
+        context.setBadge(data.data.length )
+       })
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const context = React.useContext(Context);
  
   
   const isMenuOpen       = Boolean(anchorEl);
