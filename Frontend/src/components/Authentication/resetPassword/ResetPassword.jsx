@@ -27,10 +27,8 @@ const handleSubmit=(e) =>{
 			return response.json()
 		  }).then ((data)=>{
 			setInfo("successful")
-			console.log(data);
 		  }).catch((err)=>{
 			setInfo("error")
-			console.log(err);
 		  })
 
 	}

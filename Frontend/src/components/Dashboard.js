@@ -175,7 +175,6 @@ function Dashboard() {
           }
         }).then((res)=>{
           if(res.status ===200){
-            // console.log('triger');
           }else if(res.status ===401){
             localStorage.clear();
             navigate("/")

@@ -75,7 +75,6 @@ export const CreateEmployees = () => {
       // enableReinitialize:init,
       validationSchema : userValidationSchema,
       onSubmit:(values)=>{
-        console.log(values);
         setButtonval("Loading...")
         fetch(`${API}/users/signup`, {
           method: "POST",

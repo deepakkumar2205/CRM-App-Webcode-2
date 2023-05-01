@@ -44,7 +44,6 @@ const ResetPassPage = () => {
                 email:mailid,
                 password:data.password
             }
-            console.log(info);
         fetch(`${API}/users/changePassword/${string}`, {
           method: "POST",
           body: JSON.stringify(info),
@@ -61,7 +60,6 @@ const ResetPassPage = () => {
             }else if(data.message ==='Invalid'){
                 toast("something went wrong")
             }
-            console.log(data.message);
           })
           .catch((err) => console.log(err));
         }else{

@@ -16,7 +16,10 @@ export  function Employees() {
     flexDirection:'row',
   }
 
-  console.log(context.sortedEmployees);
+  React.useEffect(()=>{
+   context.getEmp()
+  },[])
+
   return (
     <Container sx={style}>
       { context.sortedEmployees ==='empty'?<h1>Nothing To Show !</h1> : context.sortedEmployees.length !==0 ? context.sortedEmployees.map((emp,index)=> <Cardbody key={`${index}`} emp={emp}/>):<CircularProgress />}

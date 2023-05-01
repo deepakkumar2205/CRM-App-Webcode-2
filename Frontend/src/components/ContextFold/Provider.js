@@ -22,9 +22,6 @@ export default function Provider(props){
         setSortedEmployees(data.data)
        })
     }
-    useEffect(() => {
-      getEmp()     
-    }, [])
     
     return (
       <Context.Provider value={{ theme,
