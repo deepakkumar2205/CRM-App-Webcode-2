@@ -39,7 +39,7 @@ import API from '../url';
 import { About } from './About';
 import { Allocation } from './Allocation/Allocation';
 import Context from './ContextFold/Context';
-import CreateEmployee from './CreateEmployee';
+import {CreateEmployees} from './CreateEmployee';
 import './Dashboard.css';
 import { Employees } from './Employees/Employees';
 import { Home } from './Home/Home';
@@ -517,7 +517,7 @@ function Dashboard() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/allocation" element={<Allocation />} />
           <Route path="/employees" element={<Employees />} />
-          <Route path="/createEmployees" element={<CreateEmployee />} />
+          <Route path="/createEmployees" element={<CreateEmployees />} />
         </Routes>
         {/* </BrowserRouter> */}
       </Box>

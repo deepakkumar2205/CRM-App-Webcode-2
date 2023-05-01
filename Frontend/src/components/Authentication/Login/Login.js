@@ -39,6 +39,7 @@ const Login = () => {
 			}
 		  })
 		  .then((data) => {
+			console.log(data);
 			localStorage.setItem("x-Auth-token", data.token);
 			localStorage.setItem("roleId", data.roleId);
 			localStorage.setItem("_id", data._id);

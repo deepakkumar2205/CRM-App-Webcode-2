@@ -56,8 +56,6 @@ const Signup = () => {
 			console.log(err);
 			setState("Error")
 		  })
-	
-
 	};
 
 	return (
